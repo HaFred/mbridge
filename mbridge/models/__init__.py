@@ -9,6 +9,7 @@ Megatron-Core, with model-specific adjustments.
 Classes:
     Qwen2Bridge: Bridge implementation for Qwen2 models
     Qwen3Bridge: Bridge implementation for Qwen3 models
+    OneRecBridge: Bridge for OpenOneRec dense Qwen3-based models (alias types)
     LLaMA2Bridge: Bridge implementation for LLaMA2 models
     DeepseekV3Bridge: Bridge implementation for DeepseekV3 models
     MimoBridge: Bridge implementation for MIMO models
@@ -23,6 +24,7 @@ from .mixtral import MixtralBridge
 from .qwen2 import Qwen2Bridge
 from .qwen2_5_vl import Qwen2_5VLBridge
 from .qwen2moe import Qwen2MoEBridge
+from .onerec import OneRecBridge
 from .qwen3 import Qwen3Bridge
 from .qwen3moe import Qwen3MoEBridge
 from .glm4moe import GLM4MoEBridge

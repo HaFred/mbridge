@@ -46,10 +46,18 @@ class AutoBridge:
         model_type = hf_config.model_type
         if model_type in _MODEL_REGISTRY:
             return _MODEL_REGISTRY[model_type](hf_config, **kwargs)
-        else:
-            raise ValueError(
-                f"Unregistered model type: {model_type}, now only support {_MODEL_REGISTRY.keys()}"
-            )
+
+        # Finetunes sometimes keep Qwen3 weights/architecture but use a custom model_type.
+        archs = getattr(hf_config, "architectures", None) or []
+        for arch in archs:
+            if arch == "Qwen3ForCausalLM" and "qwen3" in _MODEL_REGISTRY:
+                return _MODEL_REGISTRY["qwen3"](hf_config, **kwargs)
+            if arch == "Qwen3MoeForCausalLM" and "qwen3_moe" in _MODEL_REGISTRY:
+                return _MODEL_REGISTRY["qwen3_moe"](hf_config, **kwargs)
+
+        raise ValueError(
+            f"Unregistered model type: {model_type}, now only support {_MODEL_REGISTRY.keys()}"
+        )
 
     @classmethod
     def list_supported_models(cls) -> list[str]:
