@@ -25,6 +25,10 @@ class Qwen3Bridge(Qwen2Bridge):
         **Qwen2Bridge._ATTENTION_MAPPING,
     }
     _MLP_MAPPING = {
+        # Unfused Megatron: norm before the MLP block (HF ``post_attention_layernorm``).
+        "pre_mlp_layernorm.weight": [
+            "model.layers.{layer_number}.post_attention_layernorm.weight"
+        ],
         "post_attention_layernorm.weight": [
             "model.layers.{layer_number}.post_attention_layernorm.weight"
         ],
